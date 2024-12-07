@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+<body>
+
+    <h2 id="msg"></h2>
+    <h2 id="great"></h2>
+    <button type="button" id="signOut">sign out</button>
+    <h1>home</h1>
+    <!-- <h1>Retrieve and Display Image</h1> -->
+    <!-- Image Preview -->
+    <img id="retrievedImage" class="rounded-[100px]" src="./images//user-circle.svg" alt="No image found" style="width: 100px; height: 100px;" />
+    <div class="h-[300px] w-[300px] bg-red-200 flex-col gap-[10px] justify-center items-center" style="display: none;" id="box">
+        <img id="afterClick" class="h-[100px] w-[100px] rounded-[50%]"></img>
+        <p id="name"></p>
+        <p id="email"></p>
+    </div>
+
+ <script src="./app.js"></script>
+    <script>
+
+     let UserCreds = JSON.parse(sessionStorage.getItem("user-creds"))
+     let UserInfo = JSON.parse(sessionStorage.getItem("user-info"))
+
+     let msgHead = document.getElementById("msg")
+     let greatHead = document.getElementById("great")
+     let signOutbtn = document.getElementById("signOut")
+     let name = document.getElementById("name")
+     let email = document.getElementById("email")
+
+
+        
+   
+
+     const signOut = () =>{
+        sessionStorage.removeItem("user-creds");
+        sessionStorage.removeItem("user-info");
+        sessionStorage.removeItem("uploadedImage")
+        window.location.href = "signup.html"
+     }
+
+     const check =()=>{
+        if(!sessionStorage.getItem("user-creds"))
+        window.location.href = "signup.html"
+    else{
+         msgHead.innerText = `user with email ${UserCreds.email} logged in`
+         greatHead.innerText = `welcome ${UserInfo.firstName}  ${UserInfo.lastName}`
+         name.innerText = ` ${UserInfo.firstName}  ${UserInfo.lastName}`
+         email.innerText = ` ${UserCreds.email} `
+    }
+     }
+     window.addEventListener("load",check)
+     signOutbtn.addEventListener("click", signOut)
+     
+     const savedImage = sessionStorage.getItem('uploadedImage');
+        const retrievedImage = document.getElementById('retrievedImage');
+
+        if (savedImage) {
+            retrievedImage.src = savedImage; // Set the image source
+            retrievedImage.style.display = 'block'; // Make the image visible
+        } else {
+            console.log('No image found in sessionStorage!');
+        }
+
+
+    </script>
+</body>
+</html>
